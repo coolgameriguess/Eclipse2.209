@@ -22,16 +22,18 @@ namespace eclipse::hacks::Creator {
 
         void onNewCustomItem(CCObject* sender) {
             if (auto gameManager = utils::get<GameManager>()) {
-                cocos2d::CCArray* newSelectedObjs;
-                if (m_selectedObjects->count() == 0) {
-                    newSelectedObjs = cocos2d::CCArray::create();
-                    newSelectedObjs->addObject(m_selectedObject);
-                } else {
-                    newSelectedObjs = this->m_selectedObjects;
+                if (m_selectedObjects != nullptr) {
+                    cocos2d::CCArray* newSelectedObjs;
+                    if (m_selectedObjects->count() == 0) {
+                        newSelectedObjs = cocos2d::CCArray::create();
+                        newSelectedObjs->addObject(m_selectedObject);
+                    } else {
+                        newSelectedObjs = this->m_selectedObjects;
+                    }
+                    gameManager->addNewCustomObject(copyObjects(newSelectedObjs, false, false));
+                    m_selectedObjectIndex = 0;
+                    reloadCustomItems();
                 }
-                gameManager->addNewCustomObject(copyObjects(newSelectedObjs, false, false));
-                m_selectedObjectIndex = 0;
-                reloadCustomItems();
             }
         }
     };
