@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <asp/fs/Path.hpp>
 #include <modules/gui/color.hpp>
 #include <modules/gui/gui.hpp>
 #include <modules/gui/imgui/imgui.hpp>
@@ -24,7 +25,7 @@ namespace eclipse::gui {
 
     struct ThemeMeta {
         std::string name;
-        std::filesystem::path path;
+        asp::fs::Path path;
     };
 
     /// @brief Holds current theme configuration and manages saving/loading themes.
@@ -45,10 +46,10 @@ namespace eclipse::gui {
 
         /// @brief Loads a theme from JSON file
         /// @return True if load was successful, or False in case an error happened
-        bool loadTheme(const std::filesystem::path& path);
+        bool loadTheme(asp::fs::PathView path);
 
         /// @brief Saves current theme settings to a JSON file
-        void saveTheme(const std::filesystem::path& path) const;
+        void saveTheme(asp::fs::PathView path) const;
 
         /// @brief Saves current theme to default directory
         void saveTheme() const;
@@ -58,10 +59,10 @@ namespace eclipse::gui {
 
         /// @brief Imports a ZIP file with theme settings and fonts
         /// @return True if import was successful, or False in case an error happened
-        bool importTheme(const std::filesystem::path& path);
+        bool importTheme(asp::fs::PathView path);
 
         /// @brief Exports a ZIP file with theme settings and fonts
-        void exportTheme(const std::filesystem::path& path);
+        void exportTheme(asp::fs::PathView path);
 
         /// === Utils
 
@@ -69,7 +70,7 @@ namespace eclipse::gui {
         float getGlobalScale() const;
 
         /// @brief Tries to read a theme file and gets its name if successful
-        static std::optional<ThemeMeta> checkTheme(const std::filesystem::path& path);
+        static std::optional<ThemeMeta> checkTheme(asp::fs::PathView path);
         /// @brief Returns a vector of all available built-in and custom themes
         static std::vector<ThemeMeta> listAvailableThemes();
 

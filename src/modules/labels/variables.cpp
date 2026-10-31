@@ -16,7 +16,17 @@
 
 #include <rift/config.hpp>
 
+// The published dankmeme.globed2 soft-link headers still use the old
+// 2-arg GEODE_EVENT_EXPORT(fnPtr, args) calling convention, which no
+// longer compiles against the current Geode loader's 4-arg macro
+// (see https://github.com/geode-sdk/geode/pull/2247, merged 2026-10-18;
+// globed2's soft-link headers were last updated 2026-10-11). Disable
+// this integration until globed2 publishes updated headers.
+#define ECLIPSE_GLOBED_SOFTLINK_AVAILABLE 0
+
+#if ECLIPSE_GLOBED_SOFTLINK_AVAILABLE
 #include <dankmeme.globed2/include/globed/soft-link/Wrappers.hpp>
+#endif
 
 namespace eclipse::labels {
     static std::vector<EffectGameObject*> s_coins;
@@ -705,6 +715,7 @@ namespace eclipse::labels {
         auto enabled = geode::Loader::get()->isModLoaded("dankmeme.globed2");
         globed[std::string("enabled")] = enabled;
 
+#if ECLIPSE_GLOBED_SOFTLINK_AVAILABLE
         if (enabled) {
             // net
             globed[std::string("isConnected")] = globed::api::net::isConnected();
@@ -721,6 +732,7 @@ namespace eclipse::labels {
             // globed[std::string("playersOnline")] = (int64_t)globed::api::player::playersOnline();
             globed[std::string("playersOnLevel")] = (int64_t)globed::api::game::getPlayerCount();
         }
+#endif
     }
 
     void VariableManager::refetch() {

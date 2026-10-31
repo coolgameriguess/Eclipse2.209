@@ -55,7 +55,7 @@ namespace eclipse::gui::cocos {
         return { std::u32string_view(S.value, S.length), S.filename };
     }
 
-    static Label::EmojiMap const g_emojis = {
+    static AdvancedLabel::EmojiMap const g_emojis = {
         // Twemoji emojis
         U"💯"_emoji, U"🤫"_emoji, U"🐻"_emoji, U"💔"_emoji, U"🐱"_emoji,
         U"🐶"_emoji, U"🦊"_emoji, U"🔫"_emoji, U"🤨"_emoji, U"🗿"_emoji,
@@ -122,18 +122,18 @@ namespace eclipse::gui::cocos {
         if (!isDefaultAtlas()) {
             this->addFont("font_default.fnt"_spr);
         }
-        return Label::init(text, getCurrentAtlas(), BMFontAlignment::Left, 1.f);
+        return AdvancedLabel::init(text, getCurrentAtlas(), BMFontAlignment::Left, 1.f);
     }
 
     bool TranslatedLabel::initWrappedRaw(geode::ZStringView text, float wrapWidth, float scale) {
         if (!isDefaultAtlas()) {
             this->addFont("font_default.fnt"_spr);
         }
-        return Label::initWrapped(text, getCurrentAtlas(), BMFontAlignment::Left, scale, wrapWidth);
+        return AdvancedLabel::initWrapped(text, getCurrentAtlas(), BMFontAlignment::Left, scale, wrapWidth);
     }
 
     bool EmojiLabel::init(geode::ZStringView text, std::string const& font) {
         this->enableEmojis("emojis.png"_spr, &g_emojis);
-        return Label::init(text, font, BMFontAlignment::Left, 1.f);
+        return AdvancedLabel::init(text, font, BMFontAlignment::Left, 1.f);
     }
 }

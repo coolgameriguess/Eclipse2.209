@@ -49,7 +49,7 @@ namespace eclipse::i18n {
         });
     }
 
-    void DownloadPopup::startDownloadFile(std::filesystem::path path, std::string url) {
+    void DownloadPopup::startDownloadFile(asp::fs::Path path, std::string url) {
         using namespace geode::utils;
 
         m_listener.spawn(
@@ -91,7 +91,7 @@ namespace eclipse::i18n {
 
         auto url = fmt::format(
             "https://raw.githubusercontent.com/EclipseMenu/EclipseMenu/refs/heads/main/resources/BitmapFonts/{}",
-            path.filename()
+            path.filename().value_or(asp::fs::PathView{})
         );
         this->startDownloadFile(std::move(path), std::move(url));
     }
