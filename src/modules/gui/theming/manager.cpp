@@ -1,5 +1,6 @@
 #include "manager.hpp"
 #include <filesystem>
+#include <asp/fs/std.hpp>
 #include <modules/config/config.hpp>
 #include <modules/gui/imgui/imgui.hpp>
 #include <Geode/Loader.hpp>
@@ -98,7 +99,7 @@ namespace eclipse::gui {
         else geode::log::warn("Failed to read \"{}\" from theme", key);
     }
 
-    bool ThemeManager::loadTheme(std::filesystem::path const& path) {
+    bool ThemeManager::loadTheme(asp::fs::PathView path) {
         auto res = geode::utils::file::readJson(path);
         if (res.isErr()) {
             geode::log::error("Failed to read theme file: {}", res.unwrapErr());
@@ -184,7 +185,7 @@ namespace eclipse::gui {
         return true;
     }
 
-    void ThemeManager::saveTheme(std::filesystem::path const& path) const {
+    void ThemeManager::saveTheme(asp::fs::PathView path) const {
         matjson::Value json = matjson::Value::object();
         this->applyValues(json);
 
@@ -275,11 +276,11 @@ namespace eclipse::gui {
         }
     }
 
-    bool ThemeManager::importTheme(std::filesystem::path const& path) {
+    bool ThemeManager::importTheme(asp::fs::PathView path) {
         return false;
     }
 
-    void ThemeManager::exportTheme(std::filesystem::path const& path) {}
+    void ThemeManager::exportTheme(asp::fs::PathView path) {}
 
     float ThemeManager::getGlobalScale() const {
         auto ret = m_uiScale * imgui::DEFAULT_SCALE;
@@ -291,7 +292,7 @@ namespace eclipse::gui {
         return ret;
     }
 
-    std::optional<ThemeMeta> ThemeManager::checkTheme(std::filesystem::path const& path) {
+    std::optional<ThemeMeta> ThemeManager::checkTheme(asp::fs::PathView path) {
         auto res = geode::utils::file::readJson(path);
         if (res.isErr()) {
             return std::nullopt;
@@ -307,16 +308,17 @@ namespace eclipse::gui {
 
     std::vector<ThemeMeta> ThemeManager::listAvailableThemes() {
         std::vector<ThemeMeta> themes;
-        auto globThemes = [&](std::filesystem::path const& path) {
+        auto globThemes = [&](asp::fs::PathView path) {
+            auto stdPath = path.toStdPath().unwrapOrDefault();
             std::error_code ec;
-            std::filesystem::create_directories(path, ec);
+            std::filesystem::create_directories(stdPath, ec);
             if (ec) {
                 geode::log::warn("Failed to create themes directory {}: {}", path, ec.message());
                 return;
             }
-            for (auto& entry : std::filesystem::directory_iterator(path, ec)) {
+            for (auto& entry : std::filesystem::directory_iterator(stdPath, ec)) {
                 if (entry.path().extension() != ".json") continue;
-                if (auto theme = checkTheme(entry.path()))
+                if (auto theme = checkTheme(asp::fs::Path::fromStdPath(entry.path())))
                     themes.push_back(*theme);
             }
             if (ec) {
