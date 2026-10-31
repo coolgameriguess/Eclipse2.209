@@ -3,7 +3,10 @@ add_library(third_party INTERFACE)
 
 # Include libraries
 add_library(imgui INTERFACE)
-CPMAddPackage("gh:EclipseMenu/imgui#8cf1bfc")
+CPMAddPackage(
+    NAME imgui
+    GIT_REPOSITORY https://git.eclipse.menu/EclipseMenu/imgui
+)
 target_include_directories(imgui INTERFACE ${imgui_SOURCE_DIR})
 target_sources(imgui INTERFACE
     ${imgui_SOURCE_DIR}/imgui.cpp
