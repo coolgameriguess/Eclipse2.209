@@ -53,8 +53,8 @@ namespace eclipse::gui::imgui {
         ImGui::Columns(2);
         ImGui::SetColumnOffset(1, 183 * scale);
 
-        style->Colors[ImGuiCol_WindowShadow] = ImVec4(0.f, 0.f, 0.f, 1.f);
-        style->WindowShadowSize = 50.f;
+        style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.f, 0.f, 0.f, 1.f);
+        style->WindowBorderSize = 1.f; 
 
         // Logo (not really)
 
