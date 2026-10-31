@@ -160,7 +160,7 @@ namespace eclipse::gui::imgui {
 
     std::vector<FontManager::FontMetadata> FontManager::fetchAvailableFonts() {
         std::vector<FontMetadata> result;
-        auto globFonts = [&](std::filesystem::path const& path) {
+        auto globFonts = [&](auto const& path) {
             std::error_code ec;
             std::filesystem::create_directories(path, ec);
             if (ec) {
@@ -169,7 +169,7 @@ namespace eclipse::gui::imgui {
             }
             for (auto& entry : std::filesystem::directory_iterator(path, ec)) {
                 if (entry.path().extension() != ".ttf") continue;
-                auto filename = geode::utils::string::pathToString(entry.path().stem());
+                auto filename = entry.path().stem().string();
                 FontMetadata font{filename, entry.path()};
                 result.push_back(font);
             }
