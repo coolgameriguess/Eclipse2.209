@@ -162,7 +162,7 @@ namespace eclipse::gui::imgui {
         std::vector<FontMetadata> result;
         auto globFonts = [&](auto const& rawPath) {
             std::filesystem::path path = rawPath.string();
-            std::filesystem::error_code ec;
+            std::error_code ec;
             std::filesystem::create_directories(path, ec);
             if (ec) {
                 geode::log::warn("Failed to create fonts directory {}: {}", path, ec.message());
