@@ -20,6 +20,7 @@ if (NOT ANDROID AND NOT IOS)
     CPMAddPackage(
         NAME discord-rpc
         GIT_REPOSITORY https://git.eclipse.menu/EclipseMenu/discord-presence
+        GIT_TAG 3b50b0854e
     )
 endif()
 
