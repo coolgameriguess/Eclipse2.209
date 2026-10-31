@@ -6,6 +6,7 @@ add_library(imgui INTERFACE)
 CPMAddPackage(
     NAME imgui
     GIT_REPOSITORY https://git.eclipse.menu/EclipseMenu/imgui
+    VERSION 1.91.2
 )
 target_include_directories(imgui INTERFACE ${imgui_SOURCE_DIR})
 target_sources(imgui INTERFACE
