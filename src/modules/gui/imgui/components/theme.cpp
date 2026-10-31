@@ -307,10 +307,10 @@ namespace eclipse::gui::imgui {
         auto title = i18n::get(combo->getTitle());
 
         ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * (title.empty() ? .9f : .5f));
-        if (ImGui::BeginCombo(fmt::format("##{}", title).c_str(), value.empty() ? "None" : geode::utils::string::pathToString(value.filename().stem()).c_str())) {
+        if (ImGui::BeginCombo(fmt::format("##{}", title).c_str(), value.empty() ? "None" : value.filename().stem().string().c_str())) {
             ImGui::InputText("##search", combo->getSearchBuffer());
             for (int n = 0; n < items.size(); n++) {
-                std::string option = geode::utils::string::pathToString(items[n].filename().stem());
+                std::string option = items[n].filename().stem().string();
                 if(geode::utils::string::toLower(option).find(geode::utils::string::toLower(*combo->getSearchBuffer())) != std::string::npos) {
                     bool const is_selected = (value == items[n]);
                     if (ImGui::Selectable(option.c_str(), is_selected)) {
