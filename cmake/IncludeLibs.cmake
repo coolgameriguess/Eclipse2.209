@@ -24,16 +24,16 @@ if (NOT ANDROID AND NOT IOS)
     )
 endif()
 
-CPMAddPackage("gh:prevter/gd-imgui-cocos#e66d02b")
+CPMAddPackage("gh:matcool/gd-imgui-cocos#b93f08c")
 CPMAddPackage("gh:prevter/msgpack-for-matjson#12edd5a")
 CPMAddPackage("gh:maxnut/GDR-converter#71104a9")
 CPMAddPackage("git:https://git.eclipse.menu/EclipseMenu/rift")
-CPMAddPackage("gh:prevter/AdvancedLabel#17ed1c1")
-CPMAddPackage("gh:prevter/sinaps#7d2f7b1")
+CPMAddPackage("gh:prevter/AdvancedLabel#e9e1649")
+CPMAddPackage("gh:prevter/sinaps#b9c3434")
 CPMAddPackage("gh:prevter/rock#6a2d29e")
 
 if (WIN32)
-    CPMAddPackage("gh:zyantific/zydis#ae12a09")
+    CPMAddPackage("gh:zyantific/zydis#8a961be")
 endif ()
 
 # Fix debug build
