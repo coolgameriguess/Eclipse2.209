@@ -21,17 +21,15 @@ namespace eclipse::hacks::Level {
         ADD_HOOKS_DELEGATE("level.noendshake")
 
         void showCompleteEffect() {
-          auto unkUint64_1 = m_gameState.m_unkUint64_1;
-          auto cameraShakeFactor = m_gameState.m_cameraShakeFactor;
-          auto unkPoint34 = m_gameState.m_unkPoint34;
-          auto unkUint16 = m_gameState.m_unkUint16;
-          auto unkUint15 = m_gameState.m_unkUint15;
+          auto cameraShakeOffset = m_gameState.m_cameraShakeOffset;
+          auto cameraShakeDuration = m_gameState.m_cameraShakeDuration;
+          auto cameraShakeInterval = m_gameState.m_cameraShakeInterval;
+          auto cameraShakeStrength = m_gameState.m_cameraShakeStrength;
           PlayLayer::showCompleteEffect();
-          m_gameState.m_unkUint64_1 = unkUint64_1;
-          m_gameState.m_cameraShakeFactor = cameraShakeFactor;
-          m_gameState.m_unkPoint34 = unkPoint34;
-          m_gameState.m_unkUint16 = unkUint16;
-          m_gameState.m_unkUint15 = unkUint15;
+          m_gameState.m_cameraShakeOffset = cameraShakeOffset;
+          m_gameState.m_cameraShakeDuration = cameraShakeDuration;
+          m_gameState.m_cameraShakeInterval = cameraShakeInterval;
+          m_gameState.m_cameraShakeStrength = cameraShakeStrength;
         }
     };
 }

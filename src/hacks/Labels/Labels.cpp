@@ -157,8 +157,8 @@ namespace eclipse::hacks::Labels {
     };
 
     class $modify(LabelsPLHook, PlayLayer) {
-        bool init(GJGameLevel* level, bool unk1, bool unk2) {
-            if (!PlayLayer::init(level, unk1, unk2)) return false;
+        bool init(GJGameLevel* level, bool unk1) {
+            if (!PlayLayer::init(level, unk1)) return false;
 
             // removes the testmode label (thank you mat for this :D)
             if (this->getChildrenCount()) {

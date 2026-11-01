@@ -81,10 +81,9 @@ namespace eclipse::hacks::Level {
             auto func = [index] {
                 startPosSwitcherSequence = nullptr;
                 PlayLayer* playLayer = utils::get<PlayLayer>();
-                playLayer->m_currentCheckpoint = nullptr;
 
                 auto* startPos = index >= 0 ? startPosObjects[index] : nullptr;
-                playLayer->setStartPosObject(startPos);
+                playLayer->setActiveStartPosObject(startPos);
                 playLayer->m_isTestMode = index >= 0;
 
                 if (playLayer->m_isPracticeMode)
