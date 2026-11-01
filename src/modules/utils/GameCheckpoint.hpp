@@ -9,6 +9,29 @@ namespace eclipse::utils {
         public:
         FixPlayLayerCheckpoint() = default;
 
+        // GameObjectPhysics' copy constructor is implicitly deleted (despite
+        // every field being individually copyable - this looks like an MSVC
+        // STL/LWG-3888 strictness quirk, not anything meaningful about the
+        // type), so std::unordered_map<int, GameObjectPhysics> can't be
+        // copy-constructed or copy-assigned as a whole. Copy field-by-field
+        // into freshly default-constructed entries instead.
+        static void copyGameObjectPhysics(
+            std::unordered_map<int, GameObjectPhysics> const& from,
+            std::unordered_map<int, GameObjectPhysics>& to
+        ) {
+            to.clear();
+            for (auto const& [id, physics] : from) {
+                auto& copy = to[id];
+                copy.m_gameObject = physics.m_gameObject;
+                copy.m_velocity = physics.m_velocity;
+                copy.m_direction = physics.m_direction;
+                copy.m_targetAngle = physics.m_targetAngle;
+                copy.m_turnSpeed = physics.m_turnSpeed;
+                copy.m_lastUpdateStep = physics.m_lastUpdateStep;
+                copy.m_exclusiveStep = physics.m_exclusiveStep;
+            }
+        }
+
         FixPlayLayerCheckpoint(PlayLayer* playLayer) {
             //GJBaseGameLayer
             m_player1CollisionBlock = playLayer->m_player1CollisionBlock;
@@ -21,12 +44,7 @@ namespace eclipse::utils {
             m_unk3380 = playLayer->m_unk3380;
 
             #ifndef GEODE_IS_ANDROID
-            // Assigning directly via operator= hits an MSVC STL + Clang
-            // interop bug with std::unordered_map<int, GameObjectPhysics>
-            // (it tries to reuse existing list nodes via pair::operator=,
-            // which is ill-formed for a pair with a const key). Building a
-            // fresh map and move-assigning avoids that in-place reuse path.
-            m_gameObjectPhysics = std::unordered_map<int, GameObjectPhysics>(playLayer->m_gameState.m_gameObjectPhysics);
+            copyGameObjectPhysics(playLayer->m_gameState.m_gameObjectPhysics, m_gameObjectPhysics);
             #endif
         }
 
@@ -43,7 +61,7 @@ namespace eclipse::utils {
             playLayer->m_unk3380 = m_unk3380;
 
             #ifndef GEODE_IS_ANDROID
-            playLayer->m_gameState.m_gameObjectPhysics = std::unordered_map<int, GameObjectPhysics>(m_gameObjectPhysics);
+            copyGameObjectPhysics(m_gameObjectPhysics, playLayer->m_gameState.m_gameObjectPhysics);
             #endif
         }
 
