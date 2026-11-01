@@ -319,8 +319,8 @@ namespace eclipse::hacks::Bot {
     REGISTER_HACK(Bot)
 
     class $modify(BotPLHook, PlayLayer) {
-        bool init(GJGameLevel* gj, bool p1, bool p2) {
-            bool result = PlayLayer::init(gj, p1, p2);
+        bool init(GJGameLevel* gj, bool p1) {
+            bool result = PlayLayer::init(gj, p1);
             s_bot.setLevelInfo(gdr::Level(gj->m_levelName, gj->m_levelID.value()));
             s_bot.setPlatformer(gj->isPlatformer());
             // s_respawning = false;

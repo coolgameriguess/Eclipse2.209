@@ -21,7 +21,12 @@ namespace eclipse::utils {
             m_unk3380 = playLayer->m_unk3380;
 
             #ifndef GEODE_IS_ANDROID
-            m_gameObjectPhysics = playLayer->m_gameState.m_gameObjectPhysics;
+            // Assigning directly via operator= hits an MSVC STL + Clang
+            // interop bug with std::unordered_map<int, GameObjectPhysics>
+            // (it tries to reuse existing list nodes via pair::operator=,
+            // which is ill-formed for a pair with a const key). Building a
+            // fresh map and move-assigning avoids that in-place reuse path.
+            m_gameObjectPhysics = std::unordered_map<int, GameObjectPhysics>(playLayer->m_gameState.m_gameObjectPhysics);
             #endif
         }
 
@@ -38,7 +43,7 @@ namespace eclipse::utils {
             playLayer->m_unk3380 = m_unk3380;
 
             #ifndef GEODE_IS_ANDROID
-            playLayer->m_gameState.m_gameObjectPhysics = m_gameObjectPhysics;
+            playLayer->m_gameState.m_gameObjectPhysics = std::unordered_map<int, GameObjectPhysics>(m_gameObjectPhysics);
             #endif
         }
 
