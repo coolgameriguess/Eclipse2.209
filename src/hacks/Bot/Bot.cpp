@@ -63,7 +63,7 @@ namespace eclipse::hacks::Bot {
                     );
                 }
 
-                auto res = s_bot.save(replayPath.toStdPath().unwrapOrDefault());
+                auto res = s_bot.save(replayPath);
 
                 if(res.isErr()) {
                     Popup::create(i18n::get_("common.error"), res.unwrapErr());
@@ -107,7 +107,7 @@ namespace eclipse::hacks::Bot {
 
                     auto confirmReplayDirectory = config::get<asp::fs::Path>("bot.selectedreplay", "temp");
 
-                    auto res = s_bot.save(confirmReplayDirectory.toStdPath().unwrapOrDefault());
+                    auto res = s_bot.save(confirmReplayDirectory);
                     if(res.isErr()) {
                         Popup::create(i18n::get_("common.error"), std::move(res).unwrapErr());
                         return;
@@ -125,7 +125,7 @@ namespace eclipse::hacks::Bot {
             );
         }
 
-        auto res = s_bot.save(replayPath.toStdPath().unwrapOrDefault());
+        auto res = s_bot.save(replayPath);
         if(res.isErr()) {
             Popup::create(i18n::get_("common.error"), res.unwrapErr());
             return;
@@ -138,7 +138,7 @@ namespace eclipse::hacks::Bot {
     }
 
     void confirmLoad(std::filesystem::path const& replayPath) {
-        auto res = s_bot.load(replayPath);
+        auto res = s_bot.load(asp::fs::Path::fromStdPath(replayPath));
         if (res.isErr()) {
             return Popup::create(
                 i18n::get_("common.error"),

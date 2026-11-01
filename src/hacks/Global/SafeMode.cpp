@@ -149,13 +149,13 @@ namespace eclipse::hacks::Global {
 
         ENABLE_SAFE_HOOKS_ALL()
 
-        bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
+        bool init(GJGameLevel* level, bool dontCreateObjects) {
             auto* GSM = utils::get<GameStatsManager>();
 
             m_fields->totalJumps = GSM->getStat("1");
             m_fields->totalAttempts = GSM->getStat("2");
 
-            if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+            if (!PlayLayer::init(level, dontCreateObjects)) return false;
 
             return true;
         }

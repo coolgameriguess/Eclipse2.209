@@ -258,8 +258,8 @@ namespace eclipse::hacks::Player {
             );
         }
 
-        bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
-            if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+        bool init(GJGameLevel* level, bool dontCreateObjects) {
+            if (!PlayLayer::init(level, dontCreateObjects)) return false;
 
             s_simulation.init();
 

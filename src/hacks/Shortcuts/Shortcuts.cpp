@@ -13,8 +13,6 @@ struct ToggleDevToolsEvent : geode::Event<ToggleDevToolsEvent, bool()> {
 
 namespace eclipse::hacks::Shortcuts {
     class $hack(Shortcuts) {
-        using FileEvent = geode::Task<geode::Result<std::filesystem::path>>;
-
         static void openSettings() {
             if (auto* options = OptionsLayer::create()) {
                 auto scene = utils::get<cocos2d::CCScene>();

@@ -798,9 +798,9 @@ namespace eclipse::labels {
                 s_coins.push_back(static_cast<EffectGameObject*>(obj));
         }
 
-        bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
+        bool init(GJGameLevel* level, bool dontCreateObjects) {
             s_coins.clear();
-            if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+            if (!PlayLayer::init(level, dontCreateObjects)) return false;
 
             auto& manager = VariableManager::get();
             manager.setVariable("runFrom", 0.f);
