@@ -1,3 +1,4 @@
+#include <asp/fs/std.hpp>
 #include <modules.hpp>
 #include <modules/bot/bot.hpp>
 #include <modules/config/config.hpp>
@@ -54,18 +55,15 @@ namespace eclipse::hacks::Bot {
                 auto replaysDir = Mod::get()->getSaveDir() / "replays";
                 auto replayPath = replaysDir / (name + ".gdr2");
 
-                std::error_code ec;
-                if (!std::filesystem::exists(replaysDir, ec)) {
-                    std::filesystem::create_directory(replaysDir, ec);
-                    if (ec) {
-                        return Popup::create(
-                            i18n::get_("common.error"),
-                            ec.message()
-                        );
-                    }
+                auto createRes = geode::utils::file::createDirectoryAll(replaysDir);
+                if (createRes.isErr()) {
+                    return Popup::create(
+                        i18n::get_("common.error"),
+                        createRes.unwrapErr()
+                    );
                 }
 
-                auto res = s_bot.save(replayPath);
+                auto res = s_bot.save(replayPath.toStdPath().unwrapOrDefault());
 
                 if(res.isErr()) {
                     Popup::create(i18n::get_("common.error"), res.unwrapErr());
@@ -85,34 +83,31 @@ namespace eclipse::hacks::Bot {
     }
 
     void saveReplay() {
-        std::filesystem::path replayDirectory = Mod::get()->getSaveDir() / "replays";
+        auto replayDirectory = Mod::get()->getSaveDir() / "replays";
 
-        std::error_code ec;
-        if (!std::filesystem::exists(replayDirectory, ec)) {
-            std::filesystem::create_directory(replayDirectory, ec);
-            if (ec) {
-                return Popup::create(
-                    i18n::get_("common.error"),
-                    ec.message()
-                );
-            }
+        auto createRes = geode::utils::file::createDirectoryAll(replayDirectory);
+        if (createRes.isErr()) {
+            return Popup::create(
+                i18n::get_("common.error"),
+                createRes.unwrapErr()
+            );
         }
 
-        auto replayPath = config::get<std::filesystem::path>("bot.selectedreplay", "temp");
+        auto replayPath = config::get<asp::fs::Path>("bot.selectedreplay", "temp");
 
-        if (std::filesystem::exists(replayPath, ec)) {
+        if (replayPath.exists()) {
             return Popup::create(
                 i18n::get_("common.warning"),
-                i18n::format("bot.overwrite", string::pathToString(replayPath.filename().stem())),
+                i18n::format("bot.overwrite", std::string(replayPath.stem().value_or(""))),
                 i18n::get_("common.yes"),
                 i18n::get_("common.no"),
                 [&](bool result) {
                     if (!result)
                         return;
 
-                    auto confirmReplayDirectory = config::get<std::filesystem::path>("bot.selectedreplay", "temp");
+                    auto confirmReplayDirectory = config::get<asp::fs::Path>("bot.selectedreplay", "temp");
 
-                    auto res = s_bot.save(confirmReplayDirectory);
+                    auto res = s_bot.save(confirmReplayDirectory.toStdPath().unwrapOrDefault());
                     if(res.isErr()) {
                         Popup::create(i18n::get_("common.error"), std::move(res).unwrapErr());
                         return;
@@ -121,7 +116,7 @@ namespace eclipse::hacks::Bot {
                     Popup::create(
                         i18n::get_("bot.saved"),
                         i18n::format(
-                            "bot.saved.msg", confirmReplayDirectory.filename().stem(), s_bot.getInputCount()
+                            "bot.saved.msg", std::string(confirmReplayDirectory.stem().value_or("")), s_bot.getInputCount()
                         )
                     );
 
@@ -130,14 +125,14 @@ namespace eclipse::hacks::Bot {
             );
         }
 
-        auto res = s_bot.save(replayPath);
+        auto res = s_bot.save(replayPath.toStdPath().unwrapOrDefault());
         if(res.isErr()) {
             Popup::create(i18n::get_("common.error"), res.unwrapErr());
             return;
         }
         Popup::create(
             i18n::get_("bot.saved"),
-            i18n::format("bot.saved.msg", replayPath.filename().stem(), s_bot.getInputCount())
+            i18n::format("bot.saved.msg", std::string(replayPath.stem().value_or("")), s_bot.getInputCount())
         );
         config::set("bot.selectedreplay", replayPath);
     }
@@ -188,7 +183,7 @@ namespace eclipse::hacks::Bot {
                 i18n::get_("bot.delete-invalid.msg")
             );
         }
-        auto replayName = string::pathToString(replayPath.filename().stem());
+        auto replayName = replayPath.filename().stem().string();
         Popup::create(
             i18n::get_("common.warning"),
             i18n::format("bot.confirm-delete", replayName),
@@ -221,19 +216,16 @@ namespace eclipse::hacks::Bot {
     }
     void openReplaysFolder() {
         auto replaysDir = Mod::get()->getSaveDir() / "replays";
-        std::error_code ec;
-        
+
         // create the folder if it doesn't exist
-        if (!std::filesystem::exists(replaysDir, ec)) {
-            std::filesystem::create_directory(replaysDir, ec);
-            if (ec) {
-                return Popup::create(
-                    i18n::get_("common.error"),
-                    ec.message()
-                );
-            }
+        auto createRes = geode::utils::file::createDirectoryAll(replaysDir);
+        if (createRes.isErr()) {
+            return Popup::create(
+                i18n::get_("common.error"),
+                createRes.unwrapErr()
+            );
         }
-        
+
         geode::utils::file::openFolder(replaysDir);
     }
 
@@ -301,7 +293,7 @@ namespace eclipse::hacks::Bot {
             tab->addRadioButton("bot.record", "bot.state", 1)->callback(updateBotState)->handleKeybinds();
             tab->addRadioButton("bot.playback", "bot.state", 2)->callback(updateBotState)->handleKeybinds();
 
-            tab->addFilesystemCombo("bot.replays", "bot.selectedreplay", Mod::get()->getSaveDir() / "replays");
+            tab->addFilesystemCombo("bot.replays", "bot.selectedreplay", Mod::get()->getSaveDir().toStdPath().unwrapOrDefault() / "replays");
 #ifdef GEODE_IS_WINDOWS
             tab->addCombo("bot.practice-fix-mode", {"Checkpoint", "Memory"}, 0)->setDescription();
 #endif

@@ -32,7 +32,7 @@ namespace eclipse::gui::blur {
     float blurTimer = 0.f;
     float blurProgress = 0.f;
 
-    geode::Result<std::string> Shader::compile(std::filesystem::path const& vertexPath, std::filesystem::path const& fragmentPath) {
+    geode::Result<std::string> Shader::compile(asp::fs::PathView vertexPath, asp::fs::PathView fragmentPath) {
         auto vertexSource = geode::utils::file::readString(vertexPath);
 
         if (!vertexSource)

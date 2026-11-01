@@ -28,7 +28,7 @@ namespace eclipse::hacks::Player {
             HOOKS_TOGGLE_ALL("player.muterewardssfx");
         }
 
-        int playEffect(gd::string path, float speed, float p2, float volume) {
+        int playEffect(std::string path, float speed, float p2, float volume) {
             auto* pl = utils::get<PlayLayer>();
 
             // play sfx if not in playlayer

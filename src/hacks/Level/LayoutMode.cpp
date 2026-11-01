@@ -99,7 +99,7 @@ namespace eclipse::hacks::Level {
     class $modify(LayoutModeGOHook, GameObject) {
         ADD_HOOKS_DELEGATE("level.layoutmode")
 
-        void addGlow(gd::string p0) {
+        void addGlow(std::string p0) {
             GameObject::addGlow(std::move(p0));
             if (!utils::get<PlayLayer>()) return; // don't modify in editor
 

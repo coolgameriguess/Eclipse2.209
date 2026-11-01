@@ -84,7 +84,7 @@ namespace eclipse::labels {
                 if (!pathOpt) return;
 
                 auto path = std::move(*pathOpt);
-                if (path.extension() != ".ecl") path.replace_extension(".ecl");
+                if (path.extension() != ".ecl") path.replaceExtension(".ecl");
 
                 auto res2 = geode::utils::file::writeToJson(path, *this);
                 if (res2.isErr()) {

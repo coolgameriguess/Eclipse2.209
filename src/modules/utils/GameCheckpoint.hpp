@@ -55,7 +55,7 @@ namespace eclipse::utils {
 
         #ifndef GEODE_IS_ANDROID
         //GameState
-        gd::unordered_map<int, GameObjectPhysics> m_gameObjectPhysics;
+        std::unordered_map<int, GameObjectPhysics> m_gameObjectPhysics;
         #endif
     };
 
@@ -832,7 +832,7 @@ namespace eclipse::utils {
         float m_somethingPlayerSpeedTime;
         float m_playerSpeedAC;
         bool m_fixRobotJump;
-        // gd::map<int, bool> m_holdingButtons; (breaking)
+        // std::map<int, bool> m_holdingButtons; (breaking)
         bool m_inputsLocked;
         bool m_gv0123;
         int m_iconRequestID;

@@ -417,8 +417,7 @@ namespace eclipse::hacks::Labels {
                         if (!pathOpt.has_value()) return;
 
                         auto path = std::move(pathOpt).value();
-                        std::error_code ec;
-                        if (!std::filesystem::exists(path, ec)) return;
+                        if (!path.exists()) return;
 
                         gui::Engine::queueAfterDrawing([this, path = std::move(path)] {
                             auto res = geode::utils::file::readFromJson<labels::LabelSettings>(path);

@@ -1,9 +1,41 @@
 #pragma once
 
+#include <filesystem>
 #include <functional.hpp>
 #include <string>
 #include <vector>
 #include <matjson.hpp>
+#include <Geode/utils/string.hpp>
+
+// Geode's nightly loader dropped its matjson::Serialize<std::filesystem::path>
+// specialization (it now only serializes asp::fs::Path), but several of our own
+// config values (e.g. FilesystemComboComponent's selected path) still use
+// std::filesystem::path, so we provide the same serialization here.
+template <>
+struct matjson::Serialize<std::filesystem::path> {
+    static geode::Result<std::filesystem::path> fromJson(matjson::Value const& value) {
+        GEODE_UNWRAP_INTO(const std::string str, value.asString());
+
+#ifdef GEODE_IS_WINDOWS
+        // On Windows, paths are stored as utf16, and matjson uses utf8 internally.
+        // This is not an issue until paths actually use unicode characters,
+        // so we do this conversion to make sure it stores the characters correctly.
+        return geode::Ok(
+            std::filesystem::path(geode::utils::string::utf8ToWide(str)).make_preferred()
+        );
+#else
+        return geode::Ok(std::filesystem::path(str).make_preferred());
+#endif
+    }
+
+    static matjson::Value toJson(std::filesystem::path const& value) {
+#ifdef GEODE_IS_WINDOWS
+        return matjson::Value(geode::utils::string::wideToUtf8(value.native()));
+#else
+        return matjson::Value(value.string());
+#endif
+    }
+};
 
 namespace eclipse::config {
     /// @brief Get the container for the configuration file.
