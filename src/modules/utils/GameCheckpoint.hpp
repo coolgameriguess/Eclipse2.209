@@ -332,8 +332,6 @@ namespace eclipse::utils {
 
             m_rotationXOffset = player->m_rotationXOffset;
             m_rotationYOffset = player->m_rotationYOffset;
-            m_fRotationX = player->m_rotationX;
-            m_fRotationY = player->m_rotationY;
             m_isRotationAligned = player->m_isRotationAligned;
             m_startRotationX = player->m_startRotationX;
             m_startRotationY = player->m_startRotationY;
@@ -603,8 +601,6 @@ namespace eclipse::utils {
 
             player->m_rotationXOffset = m_rotationXOffset;
             player->m_rotationYOffset = m_rotationYOffset;
-            player->m_rotationX = m_fRotationX;
-            player->m_rotationY = m_fRotationY;
             player->m_isRotationAligned = m_isRotationAligned;
             player->m_startRotationX = m_startRotationX;
             player->m_startRotationY = m_startRotationY;
@@ -873,8 +869,6 @@ namespace eclipse::utils {
         float m_unmodifiedPositionY;
         float m_rotationXOffset;
         float m_rotationYOffset;
-        float m_fRotationX;
-        float m_fRotationY;
         bool m_isRotationAligned;
         float m_startRotationX;
         float m_startRotationY;
