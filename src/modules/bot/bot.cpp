@@ -56,7 +56,7 @@ namespace eclipse::bot {
         m_replay.platformer = platformer;
     }
 
-    Result<> Bot::save(std::filesystem::path const& path) {
+    Result<> Bot::save(asp::fs::PathView path) {
         m_replay.author = utils::get<GJAccountManager>()->m_username;
         m_replay.duration = !m_replay.inputs.empty() ? m_replay.inputs[m_replay.inputs.size() - 1].frame / m_replay.framerate : 0;
 
@@ -69,7 +69,7 @@ namespace eclipse::bot {
         return file::writeBinarySafe(path, data);
     }
 
-    Result<> Bot::load(std::filesystem::path const& path) {
+    Result<> Bot::load(asp::fs::PathView path) {
         auto res = file::readBinary(path);
         if (res.isErr())
             return Err(std::move(res).unwrapErr());

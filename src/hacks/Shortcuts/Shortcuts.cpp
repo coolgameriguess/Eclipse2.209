@@ -1,3 +1,4 @@
+#include <asp/fs/Path.hpp>
 #include <modules/chatbot/ui/ChatboxPopup.hpp>
 #include <modules/config/config.hpp>
 #include <modules/gui/gui.hpp>
@@ -12,8 +13,6 @@ struct ToggleDevToolsEvent : geode::Event<ToggleDevToolsEvent, bool()> {
 
 namespace eclipse::hacks::Shortcuts {
     class $hack(Shortcuts) {
-        using FileEvent = geode::Task<geode::Result<std::filesystem::path>>;
-
         static void openSettings() {
             if (auto* options = OptionsLayer::create()) {
                 auto scene = utils::get<cocos2d::CCScene>();
@@ -179,10 +178,9 @@ namespace eclipse::hacks::Shortcuts {
                     geode::utils::file::PickMode::OpenFile,
                     {geode::dirs::getGameDir(), {filter}}
                 ),
-                [](geode::Result<std::optional<std::filesystem::path>> res) {
-                    auto path = std::move(res).unwrapOrDefault().value_or("");
-                    std::error_code ec;
-                    if (path.empty() || !std::filesystem::exists(path, ec))
+                [](geode::utils::file::PickResult res) {
+                    auto path = std::move(res).unwrapOrDefault().value_or(asp::fs::Path{});
+                    if (path.empty() || !path.exists())
                         return;
 
                     geode::log::warn("Injecting DLL: {}", path);

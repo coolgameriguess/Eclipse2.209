@@ -81,10 +81,9 @@ namespace eclipse::hacks::Level {
             auto func = [index] {
                 startPosSwitcherSequence = nullptr;
                 PlayLayer* playLayer = utils::get<PlayLayer>();
-                playLayer->m_currentCheckpoint = nullptr;
 
                 auto* startPos = index >= 0 ? startPosObjects[index] : nullptr;
-                playLayer->setStartPosObject(startPos);
+                playLayer->setActiveStartPosObject(startPos);
                 playLayer->m_isTestMode = index >= 0;
 
                 if (playLayer->m_isPracticeMode)
@@ -237,11 +236,11 @@ namespace eclipse::hacks::Level {
     };
 
     class $modify(StartPosSwitcherPLHook, PlayLayer) {
-        bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
+        bool init(GJGameLevel* level, bool dontCreateObjects) {
             levelFinishedLoading = false;
             startPosObjects.clear();
 
-            return PlayLayer::init(level, useReplay, dontCreateObjects);
+            return PlayLayer::init(level, dontCreateObjects);
         }
 
         void resetLevel() {

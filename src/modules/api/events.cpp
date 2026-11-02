@@ -1,4 +1,5 @@
 #define ECLIPSE_DONT_DEFINE_IMPLS
+#include <asp/fs/std.hpp>
 #include <eclipse.hpp>
 #include <modules/config/config.hpp>
 #include <modules/gui/gui.hpp>
@@ -115,7 +116,7 @@ $execute {
 
         // modules
         vtable.RegisterCheat = +[](std::string name, Function<bool()> callback) { g_cheats[std::move(name)] = std::move(callback); };
-        vtable.LoadReplay = +[](std::filesystem::path const& path) { return hacks::Bot::getBot().load(path); };
+        vtable.LoadReplay = +[](std::filesystem::path const& path) { return hacks::Bot::getBot().load(asp::fs::Path::fromStdPath(path)); };
         vtable.LoadReplayFromData = +[](std::span<uint8_t> data) { return hacks::Bot::getBot().load(data); };
         vtable.CheckCheatsEnabled = +[] { return config::getTemp<"hasCheats", bool>(false); };
         vtable.CheckCheatedInAttempt = +[] { return config::getTemp<"trippedSafeMode", bool>(false); };

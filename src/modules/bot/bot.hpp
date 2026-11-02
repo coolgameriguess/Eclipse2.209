@@ -1,5 +1,6 @@
 #pragma once
 
+#include <asp/fs/Path.hpp>
 #include <gdr_convert.hpp>
 
 namespace eclipse::bot {
@@ -50,11 +51,11 @@ namespace eclipse::bot {
 
         /// @brief Saves the current replay.
         /// @param path Path to save the replay to.
-        geode::Result<> save(std::filesystem::path const& path);
+        geode::Result<> save(asp::fs::PathView path);
 
         /// @brief Loads a replay from the given path.
         /// @param path Path to load the replay from.
-        geode::Result<> load(std::filesystem::path const& path);
+        geode::Result<> load(asp::fs::PathView path);
 
         /// @brief Loads a replay from a data buffer.
         /// @param data Data to load the replay from.

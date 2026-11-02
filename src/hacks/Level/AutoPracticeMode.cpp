@@ -20,8 +20,8 @@ namespace eclipse::hacks::Level {
     class $modify(AutoPracticeModePLHook, PlayLayer) {
         ADD_HOOKS_DELEGATE("level.autopracticemode")
 
-        bool init(GJGameLevel* p0, bool p1, bool p2) {
-            if (!PlayLayer::init(p0, p1, p2))
+        bool init(GJGameLevel* p0, bool p1) {
+            if (!PlayLayer::init(p0, p1))
                 return false;
 
             this->togglePracticeMode(true);

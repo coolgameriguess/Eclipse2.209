@@ -35,7 +35,7 @@ namespace eclipse::hacks::Level {
             PlayLayer::resetLevel();
         }
 
-        void activatePlatformerEndTrigger(EndTriggerGameObject* p0, gd::vector<int> const& p1) {
+        void activatePlatformerEndTrigger(EndTriggerGameObject* p0, std::vector<int> const& p1) {
             PlayLayer::activatePlatformerEndTrigger(p0, p1);
             m_uiLayer->m_pauseBtn->setEnabled(true);
         }

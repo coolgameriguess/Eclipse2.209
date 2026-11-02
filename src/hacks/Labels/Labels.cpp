@@ -157,8 +157,8 @@ namespace eclipse::hacks::Labels {
     };
 
     class $modify(LabelsPLHook, PlayLayer) {
-        bool init(GJGameLevel* level, bool unk1, bool unk2) {
-            if (!PlayLayer::init(level, unk1, unk2)) return false;
+        bool init(GJGameLevel* level, bool unk1) {
+            if (!PlayLayer::init(level, unk1)) return false;
 
             // removes the testmode label (thank you mat for this :D)
             if (this->getChildrenCount()) {
@@ -417,8 +417,7 @@ namespace eclipse::hacks::Labels {
                         if (!pathOpt.has_value()) return;
 
                         auto path = std::move(pathOpt).value();
-                        std::error_code ec;
-                        if (!std::filesystem::exists(path, ec)) return;
+                        if (!path.exists()) return;
 
                         gui::Engine::queueAfterDrawing([this, path = std::move(path)] {
                             auto res = geode::utils::file::readFromJson<labels::LabelSettings>(path);

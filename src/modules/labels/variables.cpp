@@ -5,6 +5,7 @@
 
 #include <Geode/Loader.hpp>
 #include <Geode/binding/GameManager.hpp>
+#include <Geode/binding/GameStatsManager.hpp>
 #include <Geode/binding/GJGameLevel.hpp>
 #include <Geode/binding/LevelEditorLayer.hpp>
 #include <Geode/binding/PlayerObject.hpp>
@@ -350,7 +351,7 @@ namespace eclipse::labels {
         "likedLevels", "ratedLevels", "userCoins", "diamonds", "orbs", "dailies",
     };
 
-    inline int getStatFromDictionary(cocos2d::CCDictionary* dict, gd::string const& key) {
+    inline int getStatFromDictionary(cocos2d::CCDictionary* dict, std::string const& key) {
         auto& str = dict->valueForKey(key)->m_sString;
         if (str.empty()) return 0;
         if (auto res = geode::utils::numFromString<int>(str)) {
@@ -393,7 +394,7 @@ namespace eclipse::labels {
         }
     }
 
-    inline int getStatIndex(int i, gd::unordered_map<int, int> const& seeds, gd::unordered_map<int, int> const& rands) {
+    inline int getStatIndex(int i, std::unordered_map<int, int> const& seeds, std::unordered_map<int, int> const& rands) {
         auto rand = rands.find(i);
         auto seed = seeds.find(i);
         if (rand != rands.end() && seed != seeds.end()) {
@@ -797,9 +798,9 @@ namespace eclipse::labels {
                 s_coins.push_back(static_cast<EffectGameObject*>(obj));
         }
 
-        bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
+        bool init(GJGameLevel* level, bool dontCreateObjects) {
             s_coins.clear();
-            if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+            if (!PlayLayer::init(level, dontCreateObjects)) return false;
 
             auto& manager = VariableManager::get();
             manager.setVariable("runFrom", 0.f);

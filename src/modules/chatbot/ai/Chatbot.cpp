@@ -40,7 +40,7 @@ namespace eclipse::ai {
         return mapIt->second;
     }
 
-    geode::Result<> Chatbot::loadConfig(std::filesystem::path const& path) {
+    geode::Result<> Chatbot::loadConfig(asp::fs::PathView path) {
         GEODE_UNWRAP_INTO(auto json, geode::utils::file::readJson(path));
 
         // == Bot == //

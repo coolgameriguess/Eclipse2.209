@@ -178,7 +178,7 @@ namespace eclipse::gui::cocos {
 
     protected:
         Function<void(std::string const&)> m_callback;
-        Label* m_preview = nullptr;
+        AdvancedLabel* m_preview = nullptr;
         std::string m_font;
         size_t m_page = 0;
     };

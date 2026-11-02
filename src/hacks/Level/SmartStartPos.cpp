@@ -102,7 +102,7 @@ namespace eclipse::hacks::Level {
             }
         }
 
-        bool init(GJGameLevel* level, bool unk1, bool unk2) {
+        bool init(GJGameLevel* level, bool unk1) {
             auto fields = m_fields.self();
             fields->m_dualPortals.clear();
             fields->m_gamemodePortals.clear();
@@ -112,7 +112,7 @@ namespace eclipse::hacks::Level {
             fields->m_mirrorPortals.clear();
             fields->m_startPositions.clear();
 
-            return PlayLayer::init(level, unk1, unk2);
+            return PlayLayer::init(level, unk1);
         }
 
         void resetLevel() {
