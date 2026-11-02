@@ -332,8 +332,8 @@ namespace eclipse::utils {
 
             m_rotationXOffset = player->m_rotationXOffset;
             m_rotationYOffset = player->m_rotationYOffset;
-            m_fRotationX = player->m_fRotationX;
-            m_fRotationY = player->m_fRotationY;
+            m_fRotationX = player->m_rotationX;
+            m_fRotationY = player->m_rotationY;
             m_isRotationAligned = player->m_isRotationAligned;
             m_startRotationX = player->m_startRotationX;
             m_startRotationY = player->m_startRotationY;
@@ -342,10 +342,10 @@ namespace eclipse::utils {
 
             m_rotateObjectsRelated = player->m_rotateObjectsRelated; // unordered_map<int, GJPointDouble>
             m_potentialSlopeMap = player->m_potentialSlopeMap;       // unordered_map<int, GameObject*>
-            m_ringRelatedSet = player->m_ringRelatedSet;             // unordered_set<int>
+            m_ringRelatedSet = player->m_usedRings;                  // unordered_set<int>
             m_touchedRings = player->m_touchedRings;                 // unordered_set<int>
 
-            m_jumpPadRelated = player->m_jumpPadRelated;             // map<int, bool>
+            m_jumpPadRelated = player->m_touchedForceIds;            // map<int, bool>
             m_playerFollowFloats = player->m_playerFollowFloats;     // vector<float>
 
             m_currentRobotAnimation = player->m_currentRobotAnimation;
@@ -603,8 +603,8 @@ namespace eclipse::utils {
 
             player->m_rotationXOffset = m_rotationXOffset;
             player->m_rotationYOffset = m_rotationYOffset;
-            player->m_fRotationX = m_fRotationX;
-            player->m_fRotationY = m_fRotationY;
+            player->m_rotationX = m_fRotationX;
+            player->m_rotationY = m_fRotationY;
             player->m_isRotationAligned = m_isRotationAligned;
             player->m_startRotationX = m_startRotationX;
             player->m_startRotationY = m_startRotationY;
@@ -613,10 +613,10 @@ namespace eclipse::utils {
 
             player->m_rotateObjectsRelated = m_rotateObjectsRelated;
             player->m_potentialSlopeMap = m_potentialSlopeMap;
-            player->m_ringRelatedSet = m_ringRelatedSet;
+            player->m_usedRings = m_ringRelatedSet;
             player->m_touchedRings = m_touchedRings;
 
-            player->m_jumpPadRelated = m_jumpPadRelated;
+            player->m_touchedForceIds = m_jumpPadRelated;
             player->m_playerFollowFloats = m_playerFollowFloats;
 
             player->m_currentRobotAnimation = m_currentRobotAnimation;

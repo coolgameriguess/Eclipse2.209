@@ -45,7 +45,7 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           bindings: geode-sdk/bindings
-          bindings-ref: main
+          bindings-ref: 454a1244ab8982515d19407af782e2d6454055ee
           sdk: given
           cli: latest
           combine: true
