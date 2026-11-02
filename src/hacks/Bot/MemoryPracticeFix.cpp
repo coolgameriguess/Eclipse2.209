@@ -420,7 +420,7 @@ class $modify(MPFPlayLayer, PlayLayer) {
             s_memoryTracker.addWatchedRegion((uintptr_t)m_player1 + offsetof(cocos2d::CCNode, m_fRotationX), (uintptr_t)m_player1 + offsetof(cocos2d::CCNode, m_pCamera));
             REGION(m_player1, m_mainLayer, m_rotateObjectsRelated);
             REGION(m_player1, m_rotationSpeed, m_ghostTrail);
-            REGION(m_player1, m_speedMultiplier, m_ringRelatedSet);
+            REGION(m_player1, m_speedMultiplier, m_usedRings);
             REGION(m_player1, m_objectSnappedTo, m_pendingCheckpoint);
             REGION(m_player1, m_onFlyCheckpointTries, m_jumpBuffered);
             REGION(m_player1, m_stateRingJump, m_holdingButtons);
@@ -429,7 +429,7 @@ class $modify(MPFPlayLayer, PlayLayer) {
             s_memoryTracker.addWatchedRegion((uintptr_t)m_player2 + offsetof(cocos2d::CCNode, m_fRotationX), (uintptr_t)m_player2 + offsetof(cocos2d::CCNode, m_pCamera));
             REGION(m_player2, m_mainLayer, m_rotateObjectsRelated);
             REGION(m_player2, m_rotationSpeed, m_ghostTrail);
-            REGION(m_player2, m_speedMultiplier, m_ringRelatedSet);
+            REGION(m_player2, m_speedMultiplier, m_usedRings);
             REGION(m_player2, m_objectSnappedTo, m_pendingCheckpoint);
             REGION(m_player2, m_onFlyCheckpointTries, m_jumpBuffered);
             REGION(m_player2, m_stateRingJump, m_holdingButtons);
